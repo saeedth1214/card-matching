@@ -59,13 +59,13 @@ export default {
     cardItems.forEach((item) => {
       cardList.value.push({
         value: item,
-        visible: true,
+        visible: false,
         position: null,
         match: false,
       });
       cardList.value.push({
         value: item,
-        visible: true,
+        visible: false,
         position: null,
         match: false,
       });
@@ -95,8 +95,10 @@ export default {
             cardList.value[cardOne.position].match = true;
             cardList.value[cardTwo.position].match = true;
           } else {
-            cardList.value[cardOne.position].visible = false;
-            cardList.value[cardTwo.position].visible = false;
+            setTimeout(() => {
+              cardList.value[cardOne.position].visible = false;
+              cardList.value[cardTwo.position].visible = false;
+            }, 2000);
           }
           currentValue.length = 0;
         }
