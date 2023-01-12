@@ -1,4 +1,5 @@
 <script>
+import { computed } from "vue";
 export default {
   props: {
     position: {
@@ -28,17 +29,23 @@ export default {
       });
     };
 
-    return { selectCard };
+    const flippedStyles = computed(() => {
+      if (props.visible) {
+        return "is-flipped";
+      }
+    });
+
+    return { selectCard, flippedStyles };
   },
 };
 </script>
 <template>
-  <div class="card" @click="selectCard">
-    <div v-if="visible" class="card-face is-front">
-      <img :src="`/images/${value}.png`" style="width: 100px;" :alt="value" />
+  <div class="card" @click="selectCard" :class="flippedStyles">
+    <div class="card-face is-front">
+      <img :src="`/images/${value}.png`" style="width: 100px" :alt="value" />
       <img src="/images/checkmark.svg" v-if="match" class="icon-checkmark" />
     </div>
-    <div v-else class="card-face is-back">
+    <div class="card-face is-back">
       <h3>{{ position + 1 }}</h3>
     </div>
   </div>
@@ -46,8 +53,13 @@ export default {
 <style scoped>
 .card {
   position: relative;
-
   cursor: pointer;
+  transition: transform 0.3s ease-in;
+  transform-style: preserve-3d;
+}
+
+.card.is-flipped {
+  transform: rotateY(180deg);
 }
 
 .card-face {
@@ -58,10 +70,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  backface-visibility: hidden;
 }
 .card-face.is-front {
   background-image: url("/images/card-bg.png");
   color: white;
+  transform: rotateY(180deg);
 }
 
 .card-face.is-back {

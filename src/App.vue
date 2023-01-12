@@ -187,6 +187,7 @@ h1 {
   border-radius: 0.5rem;
   margin: 0px auto;
   border: none;
+  font-weight: bold;
 }
 .sr-only {
   position: absolute;
