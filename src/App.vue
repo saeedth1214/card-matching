@@ -54,7 +54,16 @@ export default {
       }
     };
 
-    const cardItems = [1, 2, 3, 4, 5, 6, 7, 8];
+    const cardItems = [
+      "bat",
+      "candy",
+      "cauldron",
+      "cupcake",
+      "ghost",
+      "moon",
+      "pumpkin",
+      "witch-hat",
+    ];
 
     cardItems.forEach((item) => {
       cardList.value.push({
@@ -112,8 +121,9 @@ export default {
 </script>
 
 <template>
-  <h1>Peek-a-Vue</h1>
+  <h1 class="sr-only">Peek-a-Vue</h1>
 
+  <img src="/images/peek-a-vue-title.png" alt="peek-a-vue" class="title" />
   <section class="game-board">
     <Card
       v-for="(card, index) in cardList"
@@ -126,21 +136,66 @@ export default {
     />
   </section>
   <h2>{{ status }}</h2>
-  <button @click="restartGame">restart Game</button>
+  <button @click="restartGame" class="button">
+    <img
+      src="/images/restart.svg"
+      style="margin-right: 0.5rem"
+      alt="Restart icon"
+    />
+    Restart Game
+  </button>
 </template>
 
 <style>
+body,
+html {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+h1 {
+  margin-top: 0px;
+}
 #app {
   text-align: center;
-  margin-top: 60px;
-  font-family: Arial, Helvetica, sans-serif;
+  padding-top: 15px;
+  color: white;
+  font-family: Avenir, Helvetica, sans-serif;
+  background-image: url("/images/page-bg.png");
+  background-color: #00070c;
+  height: 100vh;
 }
 .game-board {
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px 100px;
-  grid-column-gap: 30px;
-  grid-row-gap: 30px;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 100px);
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
   justify-content: center;
+}
+
+.title {
+  margin-bottom: 10px;
+}
+.button {
+  background-color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  color: white;
+  border-radius: 0.5rem;
+  margin: 0px auto;
+  border: none;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 </style>
