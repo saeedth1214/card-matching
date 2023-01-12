@@ -18,7 +18,6 @@ export default {
         return `Remining paires : ${remainingPaires.value}`;
       }
     });
-
     const remainingPaires = computed(() => {
       const remainingCards = cardList.value.filter(
         (card) => card.match === false
@@ -68,12 +67,14 @@ export default {
     cardItems.forEach((item) => {
       cardList.value.push({
         value: item,
+        variant: 1,
         visible: false,
         position: null,
         match: false,
       });
       cardList.value.push({
         value: item,
+        variant: 2,
         visible: false,
         position: null,
         match: false,
@@ -124,17 +125,18 @@ export default {
   <h1 class="sr-only">Peek-a-Vue</h1>
 
   <img src="/images/peek-a-vue-title.png" alt="peek-a-vue" class="title" />
-  <section class="game-board">
+  <transition-group tag="section" class="game-board" name="shuffle-card">
     <Card
-      v-for="(card, index) in cardList"
-      :key="`card-${index}`"
+      v-for="card in cardList"
+      :key="`${card.value}- ${card.variant}`"
       :value="card.value"
       :visible="card.visible"
       :position="card.position"
       :match="card.match"
       @select-card="flipCard"
     />
-  </section>
+  </transition-group>
+
   <h2>{{ status }}</h2>
   <button @click="restartGame" class="button">
     <img
@@ -198,5 +200,9 @@ h1 {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.shuffle-card-move {
+  transition: transform 0.5s ease-in;
 }
 </style>
