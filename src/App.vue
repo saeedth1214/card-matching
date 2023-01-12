@@ -1,6 +1,8 @@
 <script>
 import Card from "./components/card.vue";
 import { ref, watch, computed } from "vue";
+import _ from "lodash";
+
 export default {
   components: {
     Card,
@@ -23,6 +25,10 @@ export default {
       ).length;
       return remainingCards / 2;
     });
+
+    const shuffleCards = () => {
+      cardList.value = _.shuffle(cardList.value);
+    };
 
     const flipCard = (payload) => {
       cardList.value[payload.position].visible =
@@ -67,7 +73,7 @@ export default {
       { deep: true }
     );
 
-    return { cardList, flipCard, status, remainingPaires };
+    return { cardList, flipCard, status, remainingPaires, shuffleCards };
   },
 };
 </script>
@@ -87,6 +93,7 @@ export default {
     />
   </section>
   <h2>{{ status }}</h2>
+  <button @click="shuffleCards">Shuffle Cards</button>
 </template>
 
 <style>
