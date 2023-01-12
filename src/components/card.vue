@@ -12,14 +12,19 @@ export default {
 
     visible: {
       type: Boolean,
-      required: false,
+      default: false,
+    },
+    match: {
+      type: Boolean,
+      default: false,
     },
   },
 
   setup(props, context) {
     const selectCard = () => {
       context.emit("selectCard", {
-        position: props.value,
+        position: props.position,
+        faceValue: props.value,
       });
     };
 
@@ -30,7 +35,7 @@ export default {
 <template>
   <div class="card" @click="selectCard">
     <div v-if="visible" class="card-face is-front">
-      {{ value }}
+      {{ value }} - {{ match }}
     </div>
     <div v-else class="card-face is-back">back</div>
   </div>
