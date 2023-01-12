@@ -26,13 +26,26 @@ export default {
       return remainingCards / 2;
     });
 
+    const restartGame = () => {
+      shuffleCards();
+
+      cardList.value = cardList.value.map((card, index) => {
+        return {
+          ...card,
+          visible: false,
+          match: false,
+          position: index,
+        };
+      });
+    };
+
     const shuffleCards = () => {
       cardList.value = _.shuffle(cardList.value);
     };
 
     const flipCard = (payload) => {
-      cardList.value[payload.position].visible =
-        !cardList.value[payload.position].visible;
+      cardList.value[payload.position].visible =true;
+        // !cardList.value[payload.position].visible;
 
       if (userSelection.value[0]) {
         userSelection.value[1] = payload;
@@ -56,14 +69,12 @@ export default {
         if (currentValue.length === 2) {
           const cardOne = currentValue[0];
           const cardTwo = currentValue[1];
-
           if (cardOne.faceValue === cardTwo.faceValue) {
             status.value = "Match!";
             cardList.value[cardOne.position].match = true;
             cardList.value[cardTwo.position].match = true;
           } else {
             status.value = "MisMatch!";
-
             cardList.value[cardOne.position].visible = false;
             cardList.value[cardTwo.position].visible = false;
           }
@@ -73,7 +84,7 @@ export default {
       { deep: true }
     );
 
-    return { cardList, flipCard, status, remainingPaires, shuffleCards };
+    return { cardList, flipCard, status, remainingPaires, restartGame };
   },
 };
 </script>
@@ -93,7 +104,7 @@ export default {
     />
   </section>
   <h2>{{ status }}</h2>
-  <button @click="shuffleCards">Shuffle Cards</button>
+  <button @click="restartGame">restart Game</button>
 </template>
 
 <style>
