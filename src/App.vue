@@ -1,6 +1,6 @@
 <script>
 import Card from "./components/card.vue";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 export default {
   components: {
     Card,
@@ -9,7 +9,20 @@ export default {
   setup() {
     const cardList = ref([]);
     const userSelection = ref([]);
-    const status = ref("");
+    const status = computed(() => {
+      if (remainingPaires.value === 0) {
+        return "Player Wins.";
+      } else {
+        return `Remining paires : ${remainingPaires.value}`;
+      }
+    });
+
+    const remainingPaires = computed(() => {
+      const remainingCards = cardList.value.filter(
+        (card) => card.match === false
+      ).length;
+      return remainingCards / 2;
+    });
 
     const flipCard = (payload) => {
       cardList.value[payload.position].visible =
@@ -54,7 +67,7 @@ export default {
       { deep: true }
     );
 
-    return { cardList, flipCard, status };
+    return { cardList, flipCard, status, remainingPaires };
   },
 };
 </script>
@@ -73,7 +86,6 @@ export default {
       @select-card="flipCard"
     />
   </section>
-
   <h2>{{ status }}</h2>
 </template>
 
