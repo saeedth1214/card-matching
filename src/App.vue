@@ -3,6 +3,8 @@ import Card from "./components/card.vue";
 import { ref, watch, computed } from "vue";
 import _ from "lodash";
 
+import { launchConfetti } from "./utilitties/confetti";
+
 export default {
   components: {
     Card,
@@ -88,6 +90,11 @@ export default {
       };
     });
 
+    watch(remainingPaires, (currentValue) => {
+      if (currentValue == 0) {
+        launchConfetti();
+      }
+    });
     watch(
       userSelection,
       (currentValue) => {
@@ -108,7 +115,7 @@ export default {
             setTimeout(() => {
               cardList.value[cardOne.position].visible = false;
               cardList.value[cardTwo.position].visible = false;
-            }, 2000);
+            }, 1000);
           }
           currentValue.length = 0;
         }
