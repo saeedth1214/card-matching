@@ -44,8 +44,8 @@ export default {
     };
 
     const flipCard = (payload) => {
-      cardList.value[payload.position].visible =true;
-        // !cardList.value[payload.position].visible;
+      cardList.value[payload.position].visible = true;
+      // !cardList.value[payload.position].visible;
 
       if (userSelection.value[0]) {
         userSelection.value[1] = payload;
@@ -54,14 +54,29 @@ export default {
       }
     };
 
-    for (let index = 0; index < 16; index++) {
+    const cardItems = [1, 2, 3, 4, 5, 6, 7, 8];
+
+    cardItems.forEach((item) => {
       cardList.value.push({
-        value: index,
-        visible: false,
-        position: index,
+        value: item,
+        visible: true,
+        position: null,
         match: false,
       });
-    }
+      cardList.value.push({
+        value: item,
+        visible: true,
+        position: null,
+        match: false,
+      });
+    });
+
+    cardList.value = cardList.value.map((card, index) => {
+      return {
+        ...card,
+        position: index,
+      };
+    });
 
     watch(
       userSelection,
@@ -69,12 +84,17 @@ export default {
         if (currentValue.length === 2) {
           const cardOne = currentValue[0];
           const cardTwo = currentValue[1];
+
+          if (cardOne.position === cardTwo.position) {
+            cardList.value[cardOne.position].visible = false;
+            currentValue.length = 0;
+            return;
+          }
+
           if (cardOne.faceValue === cardTwo.faceValue) {
-            status.value = "Match!";
             cardList.value[cardOne.position].match = true;
             cardList.value[cardTwo.position].match = true;
           } else {
-            status.value = "MisMatch!";
             cardList.value[cardOne.position].visible = false;
             cardList.value[cardTwo.position].visible = false;
           }
